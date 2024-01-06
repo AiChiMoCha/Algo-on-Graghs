@@ -1,3 +1,4 @@
+import os
 
 def reach(adj, x, y):
     visited = [False] * len(adj)
@@ -16,6 +17,12 @@ def explore(adj, v, visited):
             explore(adj, neighbor, visited)
 
 if __name__ == '__main__':
+     # 获取脚本所在目录
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+
+    # 切换工作目录到脚本所在目录
+    os.chdir(script_dir)
+    
     with open('input.txt', 'r') as file:
         input_data = file.read()
         print(input_data)
