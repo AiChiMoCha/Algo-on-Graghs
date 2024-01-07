@@ -37,5 +37,4 @@ if __name__ == '__main__':
     for (a, b) in edges: #by adjacent metrics def
         adj[a-1].append(b)
         adj[b-1].append(a)  
-    visited = [False] * len(adj)
     print(number_of_components(adj))
