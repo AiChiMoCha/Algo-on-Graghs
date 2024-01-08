@@ -1,0 +1,1 @@
+print('current v:' + str(v))
