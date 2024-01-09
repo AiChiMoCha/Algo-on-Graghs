@@ -5,7 +5,7 @@ sys.setrecursionlimit(2000)
 
 visited = []
 order = []
-# Kosaraju's algorithm------- tarjan maybe later
+
 def reverseGraph(adj):
     n = len(adj)
     adjr = [[] for _ in range(n)]
@@ -59,7 +59,7 @@ if __name__ == '__main__':
     # 切换工作目录到脚本所在目录
     os.chdir(script_dir)
     
-    with open('input5.txt', 'r') as file:
+    with open('input6.txt', 'r') as file:
         input_data = file.read()
         print(input_data)
     print('-------')
