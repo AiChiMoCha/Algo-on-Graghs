@@ -4,52 +4,31 @@ import sys
 sys.setrecursionlimit(2000)
 
 visited = []
-order = []
+distanceLayer = []
 
-def reverseGraph(adj):
-    n = len(adj)
-    adjr = [[] for _ in range(n)]
-    for v in range(len(adj)):
-        for w in adj[v]:
-            adjr[w].append(v)
-    return adjr
-
-def explore(adj, v):
+def BFS(adj,v):
+    global distanceLayer
     global visited
+    print('v'+ str(v))
     visited[v] = True
-    for w in adj[v]:
-        if not visited[w]:
-            explore(adj, w)
+    for neighbor in adj[v]:
+        currentLayer = []
+        currentLayer.append(v)
+        print(currentLayer)
+        print('n'+ str(neighbor))
+        visited[neighbor] = True
 
-def exploreForOrder(adj, v):
-    global visited
-    global order
-    visited[v] = True
-    for w in adj[v]:
-        if not visited[w]:
-            exploreForOrder(adj, w)
-    order.insert(0, v)
 
-def toposort(adj):
-    global visited
-    global order
-    visited = [False] * len(adj)
-    for v in range(len(adj)):
-        if not visited[v]:
-            exploreForOrder(adj, v)
-    return order
-
-def number_of_strongly_connected_components(adj):
-    global visited
-    result = 0
-    adjr = reverseGraph(adj)
-    order = toposort(adjr)
-    visited = [False] * len(adj)
-    for v in order:
-        if not visited[v]:
-            explore(adj, v)
-            result += 1
-    return result
+def explore(adj, v, visited):
+    print('v'+ str(v))
+    visited[v-1] = True
+    for neighbor in adj[v-1]:
+        print('n'+ str(neighbor))
+        print(visited)
+        print(not visited[neighbor-1])
+        if not visited[neighbor-1]: #recreation break out at the youngest offspring
+            print('next')
+            explore(adj, neighbor, visited)
 
 
 if __name__ == '__main__':
@@ -66,15 +45,21 @@ if __name__ == '__main__':
     data = list(map(int, input_data.split()))
     n, m = data[0:2]
     data = data[2:]
-   # 在有向图中，只有一个方向的边
+   # undirected gragh
     edges = list(zip(data[0:(2 * m):2], data[1:(2 * m):2]))
     adj = [[] for _ in range(n)]
+    cost = [[] for _ in range(n)]
     for (a, b) in edges:
         adj[a - 1].append(b)
-
-    print(adj)
+        adj[b - 1].append(a)
     adj_m=[[x - 1 if isinstance(x, int) and x > 0 else x for x in sublist] for sublist in adj]
     
+    print(adj)
     print(adj_m)
-    print(number_of_strongly_connected_components(adj_m))
+
+    visited = [False]*len(adj_m)
+    print(visited)
+    for i in range(len(adj_m)):
+        BFS(adj_m,i)
+    
 
