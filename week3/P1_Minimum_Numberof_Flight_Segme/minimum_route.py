@@ -1,34 +1,34 @@
 import os
 import sys
+from collections import deque
 
 sys.setrecursionlimit(2000)
 
-visited = []
-distanceLayer = []
 
-def BFS(adj,v):
-    global distanceLayer
+def BFS(adj,v,n):
+#Breadth-First Search
+
     global visited
-    print('v'+ str(v))
-    visited[v] = True
-    for neighbor in adj[v]:
-        currentLayer = []
-        currentLayer.append(v)
-        print(currentLayer)
-        print('n'+ str(neighbor))
-        visited[neighbor] = True
 
+    distances = [-1] * n
+    distances[v] = 0
+    queue = deque([v])
+    
+    while queue:
+        current_node = queue.popleft()
+        visited[current_node] = True
 
-def explore(adj, v, visited):
-    print('v'+ str(v))
-    visited[v-1] = True
-    for neighbor in adj[v-1]:
-        print('n'+ str(neighbor))
-        print(visited)
-        print(not visited[neighbor-1])
-        if not visited[neighbor-1]: #recreation break out at the youngest offspring
-            print('next')
-            explore(adj, neighbor, visited)
+        if visited[current_node]:
+
+            for neighbor in adj[current_node]:
+                
+                if not visited[neighbor]:
+                    visited[neighbor] = True
+                    queue.append(neighbor)
+                    distances[neighbor] = distances[current_node] + 1
+
+    return distances
+
 
 
 if __name__ == '__main__':
@@ -59,7 +59,8 @@ if __name__ == '__main__':
 
     visited = [False]*len(adj_m)
     print(visited)
-    for i in range(len(adj_m)):
-        BFS(adj_m,i)
+   
+    print(BFS(adj_m,0,n))
+    
     
 
