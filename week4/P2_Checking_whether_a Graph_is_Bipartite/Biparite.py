@@ -1,5 +1,6 @@
 import os
 import sys
+from collections import deque
 
 sys.setrecursionlimit(2000)
 
@@ -13,6 +14,7 @@ def isBIPartiteUtil(adj, v, c):
 
     visited[v] = True
     color[v] = c
+    print(c)
 
     for neighbor in adj[v]:
         if not visited[neighbor]:
@@ -28,7 +30,6 @@ def isBIPartite(adj):
     global color
 
     visited = [False] * len(adj)
-
     color = [-1] * len(adj)
 
     for v in range(len(adj)):

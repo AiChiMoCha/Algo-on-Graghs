@@ -1,42 +1,35 @@
 import os
 import sys
+from collections import deque
 
 sys.setrecursionlimit(2000)
 
 
-visited = []
-color = []
+def BFS(adj,v,n):
+#Breadth-First Search
 
-def isBIPartiteUtil(adj, v, c):
     global visited
-    global color
 
-    visited[v] = True
-    color[v] = c
+    distances = [-1] * n
+    distances[v] = 0
+    queue = deque([v])
+    
+    while queue:
+        current_node = queue.popleft()
+        visited[current_node] = True
 
-    for neighbor in adj[v]:
-        if not visited[neighbor]:
-            if not isBIPartiteUtil(adj, neighbor, not c):
-                return False
-        elif color[neighbor] == color[v]:
-            return False
+        if visited[current_node]:
 
-    return True
+            for neighbor in adj[current_node]:
+                
+                if not visited[neighbor]:
+                    visited[neighbor] = True
+                    queue.append(neighbor)
+                    distances[neighbor] = distances[current_node] + 1
 
-def isBIPartite(adj):
-    global visited
-    global color
+    return distances
 
-    visited = [False] * len(adj)
 
-    color = [-1] * len(adj)
-
-    for v in range(len(adj)):
-        if not visited[v]:
-            if not isBIPartiteUtil(adj, v, True):
-                return False
-
-    return True
 
 if __name__ == '__main__':
      # 获取脚本所在目录
@@ -45,7 +38,7 @@ if __name__ == '__main__':
     # 切换工作目录到脚本所在目录
     os.chdir(script_dir)
     
-    with open('input7.txt', 'r') as file:
+    with open('input6.txt', 'r') as file:
         input_data = file.read()
         print(input_data)
     print('-------')
@@ -64,8 +57,10 @@ if __name__ == '__main__':
     print(adj)
     print(adj_m)
 
-    print(isBIPartite(adj_m))
+    visited = [False]*len(adj_m)
+    print(visited)
    
+    print(BFS(adj_m,0,n))
     
     
 
