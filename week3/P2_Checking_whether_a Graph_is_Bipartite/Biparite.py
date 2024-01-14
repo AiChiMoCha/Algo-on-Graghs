@@ -5,11 +5,38 @@ from collections import deque
 sys.setrecursionlimit(2000)
 
 
-def bipartite(adj):
-    #write your code here
-    return -1
+visited = []
+color = []
 
+def isBIPartiteUtil(adj, v, c):
+    global visited
+    global color
 
+    visited[v] = True
+    color[v] = c
+
+    for neighbor in adj[v]:
+        if not visited[neighbor]:
+            if not isBIPartiteUtil(adj, neighbor, not c):
+                return False
+        elif color[neighbor] == color[v]:
+            return False
+
+    return True
+
+def isBIPartite(adj):
+    global visited
+    global color
+
+    visited = [False] * len(adj)
+    color = [-1] * len(adj)
+
+    for v in range(len(adj)):
+        if not visited[v]:
+            if not isBIPartiteUtil(adj, v, True):
+                return False
+
+    return True
 
 if __name__ == '__main__':
      # 获取脚本所在目录
@@ -37,8 +64,7 @@ if __name__ == '__main__':
     print(adj)
     print(adj_m)
 
-    visited = [False]*len(adj_m)
-    print(bipartite(adj))
+    print(isBIPartite(adj_m))
    
     
     
