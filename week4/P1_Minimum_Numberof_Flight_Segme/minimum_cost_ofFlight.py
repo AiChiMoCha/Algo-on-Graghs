@@ -4,6 +4,7 @@ from collections import deque
 
 sys.setrecursionlimit(2000)
 
+#Dijkstra's Algo
 
 def distance(adj, cost, s, t):
     #write your code here
@@ -24,6 +25,7 @@ if __name__ == '__main__':
     print('-------')
     data = list(map(int, input_data.split()))
     n, m = data[0:2]
+    s, t = data[-2] - 1, data[-1] - 1
     data = data[2:-2]
    # directed gragh
     edges = list(zip(zip(data[0:(3 * m):3], data[1:(3 * m):3]), data[2:(3 * m):3]))
@@ -37,7 +39,7 @@ if __name__ == '__main__':
     
     print(adj)
     print(cost)
-
+    print(s,t)
     s, t = data[0] - 1, data[1] - 1
    
     print(distance(adj, cost, s, t))
