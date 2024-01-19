@@ -1,14 +1,39 @@
 import os
 import sys
-from collections import deque
+
 
 sys.setrecursionlimit(2000)
 
-#Dijkstra's Algo
+dist = []
+visited = []
+
+def Dijkstra(v,adj,cost):
+    #Dijkstra's Algo
+
+    global dist,visited
+    visited[v] = True
+
+    for neighbor in adj[v]:
+
+        if dist[neighbor] > dist[v] + cost[v][adj[v].index(neighbor)]:
+            dist[neighbor] = dist[v] + cost[v][adj[v].index(neighbor)]
+  
+        #ongoing
+    for neighbor in adj[v]:
+        if not visited[neighbor] and neighbor == min(adj[v], key=lambda x: cost[v][adj[v].index(x)]):
+            Dijkstra(neighbor,adj,cost)
+
+
 
 def distance(adj, cost, s, t):
-    #write your code here
-    return -1
+    global dist, visited
+    dist = [float('inf')] * len(adj)
+    visited = [False] * len(adj)
+    dist[s] = 0
+    Dijkstra(s, adj, cost)
+
+    return dist[t] if dist[t] != float('inf') else -1
+
 
 
 
@@ -29,8 +54,6 @@ if __name__ == '__main__':
     data = data[2:-2]
    # directed gragh
     edges = list(zip(zip(data[0:(3 * m):3], data[1:(3 * m):3]), data[2:(3 * m):3]))
-    print(data)
-    print(edges)
     adj = [[] for _ in range(n)]
     cost = [[] for _ in range(n)]
     for ((a, b), w) in edges:
@@ -39,8 +62,7 @@ if __name__ == '__main__':
     
     print(adj)
     print(cost)
+    
     print(s,t)
-    s, t = data[0] - 1, data[1] - 1
    
     print(distance(adj, cost, s, t))
-    
